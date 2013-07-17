@@ -19,7 +19,7 @@ Copy the module produced by ```mvn package``` to the _modules_ directory of the 
     cp -r wildfly-module/target/module/org $WILDFLY_HOME/modules
     
 Make sure you have installed the [Netty Subsystem](https://github.com/danbev/netty-subsystem), and then add this module as 
-a dependency to the Netty subsystem module (_modules/org/jboss/aerogear/netty/main/module.xml_):
+a dependency to the Netty subsystem module ```$WILDFLY_HOME/modules/org/jboss/aerogear/netty/main/module.xml```:
 
     <dependencies>
         ...
