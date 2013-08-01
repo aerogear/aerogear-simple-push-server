@@ -23,7 +23,7 @@ public interface SimplePushServerConfig {
 
     /**
      * The default prefix for the the notification endpoint url. This
-     * prefix will be used and returned to the client to enaable the
+     * prefix will be used and returned to the client to enable the
      * client to PUT notifications.
      */
     String DEFAULT_ENDPOINT_URL_PREFIX = "/endpoint";
