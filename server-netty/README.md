@@ -59,7 +59,7 @@ import the certificate.
 
 For some broswers is will be enough to access ```https://localhost:7777``` once, and then accept the certificate.  For other
 systems it might be required to import the certificate through the browser preferences/settings page. For this case we
-have exported the certificate and it can be found in ```src/main/resources/simplepush.crt```.
+have exported the certificate and it can be found in ```src/test/resources/simplepush.crt```.
 
 #### Mac WebServer
 
