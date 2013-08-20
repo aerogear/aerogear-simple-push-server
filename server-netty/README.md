@@ -82,7 +82,9 @@ In case you are not running a mac, there is a simple HTTP server, that comes wit
 Now you should be able to point your browser to ```http://localhost:5555/sockjs-client.html```
 
 ### Register a channel
-You will automatically be registered to receive push notifications for mail and foo. The endpoint channelID's will be displayed in the results textarea.
+You have to register yourself by executing two commands in the text areas in ```sockjs-client.html``` page. Try 
+to execute the first one of message type _hello_. When executing the second one, do not forget to add the channel you 
+want to get registered, as the _channelId_, enter e.g. _mail_.
 
 ### Send a notification
 
