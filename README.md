@@ -34,3 +34,14 @@ A WildFly/AS7 module for the SimplePush Server.
 
 Please refer to the above modules documentation for more information.
 
+#### How to generate Javadocs?
+
+Your Javadocs are generated while building the project itself. Execute in the root dir:
+
+```mvn clean install```
+
+When you want them to be aggregated (meaning all docs in one, not by modules), please execute the following command after the first one:
+
+```mvn javadoc:aggregate```
+
+When you have [GraphViz](https://code.google.com/p/apiviz/) installed locally on your host, your Javadocs will be enriched by class model embedded directly into them as images. They are placed in ```target/site/apidocs```
