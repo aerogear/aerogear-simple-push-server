@@ -180,7 +180,7 @@ public class NettySockJSServer {
             return options;
         }
 
-        private static final Pattern OPTION_PATTERN = Pattern.compile("^-(\\w+)=([\\d\\w]+)");
+        private static final Pattern OPTION_PATTERN = Pattern.compile("^-(\\w+)=([\\d\\w.-]+)");
 
         private static Option<String> parseOptionName(final String cmdArg) {
             final Matcher matcher = OPTION_PATTERN.matcher(cmdArg);
