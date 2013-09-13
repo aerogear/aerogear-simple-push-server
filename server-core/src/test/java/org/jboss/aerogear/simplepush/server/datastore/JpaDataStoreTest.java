@@ -18,6 +18,7 @@ package org.jboss.aerogear.simplepush.server.datastore;
 
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -68,6 +69,18 @@ public class JpaDataStoreTest {
         assertThat(channel.getUAID(), equalTo(uaid));
         assertThat(channel.getVersion(), equalTo(10L));
         assertThat(channel.getPushEndpoint(), equalTo("/endpoint/" + channelId));
+    }
+
+    @Test
+    public void getChannels() throws ChannelNotFoundException {
+        final String uaid = UUIDUtil.newUAID();
+        final String channelId1 = UUID.randomUUID().toString();
+        final String channelId2 = UUID.randomUUID().toString();
+        jpaDataStore.saveChannel(newChannel(uaid, channelId1, 10L));
+        jpaDataStore.saveChannel(newChannel(uaid, channelId2, 10L));
+        final Set<String> channels = jpaDataStore.getChannelIds(uaid);
+        assertThat(channels.size(), is(2));
+        assertThat(channels, hasItems(channelId1, channelId2));
     }
 
     @Test (expected = ChannelNotFoundException.class)
