@@ -17,10 +17,6 @@ Note also that Vert.x requires Java 7.
 ### Start the SimplePush Server
 
     cd target
-    vertx runmod aerogear~simplepush~0.0.8
-    
-You can also start the server with a different configuration:
-
     vertx runmod aerogear~simplepush~0.0.8 -conf classes/config.json
 
 The config file can be named anything file you like but the ```classes/config.json``` file above contains an example of the configuration 
