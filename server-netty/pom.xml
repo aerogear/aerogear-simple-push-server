@@ -38,6 +38,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <performance.test.server>ws://localhost:7777/simplepush/websocket</performance.test.server>
     </properties>
 
     <dependencies>
@@ -98,52 +99,179 @@
         </dependency>
 
     </dependencies>
-
+    
     <build>
         <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2</version>
-                <configuration>
-                    <mainClass>org.jboss.aerogear.simplepush.server.netty.NettySockJSServer</mainClass>
-                    <classpathScope>test</classpathScope>
-                    <arguments>
-                        <!-- Host -->
-                        <argument>-host=localhost</argument>
-                        <!-- Port -->
-                        <argument>-port=7777</argument>
-                        <!-- Transport Layer Security option -->
-                        <argument>-tls=true</argument>
-                        <!-- Token key used for encryption/decryption -->
-                        <argument>-token_key=dummyKey</argument>
-                        <!-- UserAgent Reaper timeout in ms -->
-                        <argument>-useragent_reaper_timeout=604800000</argument>
-                        <!-- Acknowledgment interval -->
-                        <argument>-ack_interval=300000</argument>
-                    </arguments>
-                    <systemProperties>
-                        <systemProperty>
-                            <key>simplepush.keystore.password</key>
-                            <value>simplepush</value>
-                        </systemProperty>
-                        <systemProperty>
-                            <key>simplepush.keystore.path</key>
-                            <value>/simplepush-sample.keystore</value>
-                        </systemProperty>
-                        <!--
-                        <systemProperty>
-                          <key>javax.net.debug</key>
-                          <value>all</value>
-                        </systemProperty>
-                        -->
-                    </systemProperties>
-                </configuration>
-            </plugin>
-
-        </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <defaultGoal>verify</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <configuration>
+                            <mainClass>org.jboss.aerogear.simplepush.server.netty.NettySockJSServer</mainClass>
+                            <classpathScope>test</classpathScope>
+                            <arguments>
+                                <!-- Host -->
+                                <argument>-host=localhost</argument>
+                                <!-- Port -->
+                                <argument>-port=7777</argument>
+                                <!-- Transport Layer Security option -->
+                                <argument>-tls=true</argument>
+                                <!-- Token key used for encryption/decryption -->
+                                <argument>-token_key=dummyKey</argument>
+                                <!-- UserAgent Reaper timeout in ms -->
+                                <argument>-useragent_reaper_timeout=604800000</argument>
+                                <!-- Acknowledgment interval -->
+                                <argument>-ack_interval=300000</argument>
+                            </arguments>
+                            <systemProperties>
+                                <systemProperty>
+                                    <key>simplepush.keystore.password</key>
+                                    <value>simplepush</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <key>simplepush.keystore.path</key>
+                                    <value>/simplepush-sample.keystore</value>
+                                </systemProperty>
+                            </systemProperties>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>hello</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <configuration>
+                            <mainClass>org.jboss.aerogear.simplepush.server.netty.performance.HelloOperation</mainClass>
+                            <classpathScope>test</classpathScope>
+                            <arguments>
+                                <!-- SimplePush Server to use -->
+                                <argument>${performance.test.server}</argument>
+                                <!-- The number of operations to perform -->
+                                <argument>100</argument>
+                                <!-- The number of warm up operations to perform -->
+                                <argument>100</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>register</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <configuration>
+                            <mainClass>org.jboss.aerogear.simplepush.server.netty.performance.RegistrationOperation</mainClass>
+                            <classpathScope>test</classpathScope>
+                            <arguments>
+                                <!-- SimplePush Server to use -->
+                                <argument>${performance.test.server}</argument>
+                                <!-- The number of threads to use -->
+                                <argument>10</argument>
+                                <!-- The number of operations to perform -->
+                                <argument>100</argument>
+                                <!-- The number of warm up operations to perform -->
+                                <argument>100</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>unregister</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <configuration>
+                            <mainClass>org.jboss.aerogear.simplepush.server.netty.performance.UnregisterOperation</mainClass>
+                            <classpathScope>test</classpathScope>
+                            <arguments>
+                                <!-- SimplePush Server to use -->
+                                <argument>${performance.test.server}</argument>
+                                <!-- The number of threads to use -->
+                                <argument>10</argument>
+                                <!-- The number of operations to perform -->
+                                <argument>100</argument>
+                                <!-- The number of warm up operations to perform -->
+                                <argument>100</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>notify</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <configuration>
+                            <mainClass>org.jboss.aerogear.simplepush.server.netty.performance.NotificationOperation</mainClass>
+                            <classpathScope>test</classpathScope>
+                            <arguments>
+                                <!-- SimplePush Server to use -->
+                                <argument>${performance.test.server}</argument>
+                                <!-- The number of threads to use -->
+                                <argument>10</argument>
+                                <!-- The number of operations to perform -->
+                                <argument>100</argument>
+                                <!-- The number of warm up operations to perform -->
+                                <argument>100</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>ack</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <configuration>
+                            <mainClass>org.jboss.aerogear.simplepush.server.netty.performance.AckOperation</mainClass>
+                            <classpathScope>test</classpathScope>
+                            <arguments>
+                                <!-- SimplePush Server to use -->
+                                <argument>${performance.test.server}</argument>
+                                <!-- The number of threads to use -->
+                                <argument>10</argument>
+                                <!-- The number of operations to perform -->
+                                <argument>100</argument>
+                                <!-- The number of warm up operations to perform -->
+                                <argument>100</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
 
