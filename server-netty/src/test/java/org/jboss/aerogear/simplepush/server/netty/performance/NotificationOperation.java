@@ -78,9 +78,8 @@ public class NotificationOperation extends Operation {
     }
 
     private void sendNotifications(final RegisterResponse registerResponse, final NettyConnection con) throws Exception {
-        final HttpURLConnection http = getHttpConnection(new URL(registerResponse.getPushEndpoint()));
         for (long i = 1; i <= operations; i++) {
-            sendVersion(i, http);
+            sendVersion(i, getHttpConnection(new URL(registerResponse.getPushEndpoint())));
         }
     }
 
