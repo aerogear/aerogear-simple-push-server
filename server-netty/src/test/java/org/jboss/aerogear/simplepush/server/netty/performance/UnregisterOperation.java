@@ -70,6 +70,8 @@ public class UnregisterOperation extends Operation {
     private void sendUnregistration(final String channelId, final NettyConnection con) throws Exception {
         final ChannelFuture unregisterFuture = con.channel().writeAndFlush(unregisterFrame(channelId));
         unregisterFuture.sync();
+        // consume the response.
+        con.handler().getTextFrame();
     }
 
     public static TextWebSocketFrame unregisterFrame(final String channelId) {
