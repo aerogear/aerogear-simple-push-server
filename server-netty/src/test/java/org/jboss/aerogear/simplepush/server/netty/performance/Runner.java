@@ -65,10 +65,11 @@ public class Runner {
         long millis = TimeUnit.NANOSECONDS.toMillis(elapsedTime);
         if (operations != 0) {
             System.out.println(millis + " ms for " + operations * threads + " operations using " + threads + " threads");
+            System.out.println(millis/operations + " ms (" + elapsedTime/operations + " ns) per operations");
         } else {
             System.out.println(millis + " ms for " + threads + " operations");
+            System.out.println(millis/threads + " ms (" + elapsedTime/threads + " ns) per operations");
         }
-        System.out.println(millis/threads + " ms (" + elapsedTime/threads + " ns) per operations");
     }
 
     public static Builder withUri(final URI uri) {
