@@ -1,6 +1,8 @@
 # CouchDB DataStore for AeroGear SimplePush
 This project implements a data store for [CouchDB](http://http://couchdb.apache.org/) using the Java client library 
-[Ektorp](https://http://http://www.ektorp.org).
+[Ektorp](http://www.ektorp.org).
+
+For information about installing CouchDB please refer to the [CouchDB Documentation](http://docs.couchdb.org/en/latest/install/index.html)
 
 
 ## Building and testing
