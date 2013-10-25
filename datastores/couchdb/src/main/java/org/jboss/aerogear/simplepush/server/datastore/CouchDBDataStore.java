@@ -87,12 +87,6 @@ public class CouchDBDataStore implements DataStore {
         return true;
     }
 
-    /*
-     * Converts a Channel instance to key/value pairs for storage in CouchDB.
-     * This was chosen instead of creating a new domain model as the
-     * current domain classes are imutable and creating addition
-     * one just for storage in CouchDB seems unnecessary
-     */
     private Map<String, String> channelAsMap(final Channel channel) {
         final Map<String, String> map = new HashMap<String, String>(5);
         map.put(UAID_FIELD, channel.getUAID());
