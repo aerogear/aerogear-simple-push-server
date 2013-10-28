@@ -202,7 +202,6 @@ public class CouchDBDataStoreTest {
 
     @Test
     public void concurrency() throws InterruptedException {
-        final CouchDBDataStore store = new CouchDBDataStore("http://127.0.0.1:5984", "simplepush-test");
         final String uaid = UUIDUtil.newUAID();
         final AtomicBoolean outcome = new AtomicBoolean(true);
         final int threads = 19;
@@ -216,12 +215,12 @@ public class CouchDBDataStoreTest {
                         startLatch.await();
                         try {
                             final Channel channel = newChannel(uaid, UUID.randomUUID().toString(), 10);
-                            store.saveChannel(channel);
-                            store.saveUnacknowledged(channel.getChannelId(), 11);
-                            store.saveUnacknowledged(channel.getChannelId(), 12);
-                            store.saveUnacknowledged(channel.getChannelId(), 13);
-                            assertThat(store.getUnacknowledged(uaid), hasItems(ack(channel.getChannelId(), 13)));
-                            assertThat(store.removeAcknowledged(uaid, acks(ack(channel.getChannelId(), 13))), not(hasItem(ack(channel.getChannelId(), 13))));
+                            datastore.saveChannel(channel);
+                            datastore.saveUnacknowledged(channel.getChannelId(), 11);
+                            datastore.saveUnacknowledged(channel.getChannelId(), 12);
+                            datastore.saveUnacknowledged(channel.getChannelId(), 13);
+                            assertThat(datastore.getUnacknowledged(uaid), hasItems(ack(channel.getChannelId(), 13)));
+                            assertThat(datastore.removeAcknowledged(uaid, acks(ack(channel.getChannelId(), 13))), not(hasItem(ack(channel.getChannelId(), 13))));
                         } catch (final Exception e) {
                             e.printStackTrace();
                             outcome.compareAndSet(true, false);
