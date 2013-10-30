@@ -87,3 +87,64 @@ A push notification stating the version will be displayed in the textarea of the
 
     
     
+## Performance testing
+This project contains a few performance tests that can be used for remote testing. The tests below require a server running.
+
+
+### Hello/Handshakes
+This test sends a number of 'hello' messages to the server and reports back the time it took to execute:
+
+    mvn exec:java -Phello
+    
+This will run with the default arguments as specified in pom.xml. The arguments can be changed on the command line:
+
+    mvn exec:java -Dexec.args="ws://localhost:7777/simplepush/websocket 10 100" -Phello
+The first int is the number of threads to use and each thread will perform a single hello/handshake. The last argument is the number of warm up operations to perform.
+    
+### Registrations
+This test sends a number of 'registration' messages to the server and reports back the time it took to execute:
+    
+    mvn exec:java -Pregister
+
+This will run with the default arguments as specified in pom.xml. The arguments can be changed on the command line:
+
+    mvn exec:java -Dexec.args="ws://localhost:7777/simplepush/websocket 10 100 100" -Pregister
+    
+The first int is the number of thread to use and the second is the number of registrations that each thread should perform
+The last argument is the number of warm up operations to perform.
+
+### Unregisters
+This test sends a number of 'unregister' messages to the server and reports back the time it took to execute:
+    
+    mvn exec:java -Punregister
+
+This will run with the default arguments as specified in pom.xml. The arguments can be changed on the command line:
+
+    mvn exec:java -Dexec.args="ws://localhost:7777/simplepush/websocket 10 100 100" -Punregister
+    
+The first int is the number of thread to use and the second is the number of registrations that each thread should perform
+The last argument is the number of warm up operations to perform.
+
+### Notifications
+This test sends a number of notification messages to the server and reports back the time it took to execute:
+
+    mvn exec:java -Pnotify
+
+This will run with the default arguments as specified in pom.xml. The arguments can be changed on the command line:
+
+    mvn exec:java -Dexec.args="ws://localhost:7777/simplepush/websocket 10 100 100" -Pnotify
+    
+The first int is the number of thread to use and the second is the number of registrations that each thread should perform. 
+The last argument is the number of warm up operations to perform.
+
+### Acknowledgements (acks/updates)
+This test sends a number of 'updates' messages that contain acknowledgement of received notifications.
+
+    mvn exec:java -Pack
+
+This will run with the default arguments as specified in pom.xml. The arguments can be changed on the command line:
+
+    mvn exec:java -Dexec.args="ws://localhost:7777/simplepush/websocket 10 100 100" -Pack
+    
+The first int is the number of thread to use and the second is the number of registrations that each thread should perform. 
+The last argument is the number of warm up operations to perform.
