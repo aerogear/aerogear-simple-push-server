@@ -56,7 +56,7 @@ of the endpoint URLs that are returned to clients upon successful channel regist
 
 ## Deploy on OpenShift
 
-Vert.x applications can now be easily deployed on OpenShift using the dedicated cartdridge. This way you can deploy your vert.x Simple Push Server on the cloud and fully benefit from the scalability features.
+Vert.x applications can now be easily deployed on OpenShift using the dedicated cartdridge. This way you can deploy your vert.x SimplePush Server on the cloud and fully benefit from the scalability features.
 
 ### Application Creation
 
