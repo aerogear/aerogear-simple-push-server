@@ -51,7 +51,7 @@ public class VertxSimplePushServer extends Verticle {
         final HttpServer httpServer = vertx.createHttpServer();
         setupHttpNotificationHandler(httpServer, simplePushServer);
         setupSimplePushSockJSServer(httpServer, simplePushServer);
-        startHttpServer(httpServer);
+        startHttpServer(httpServer, container.config().getBoolean("openshift", false));
         setupUserAgentReaperJob(simplePushServer);
     }
 
@@ -59,13 +59,16 @@ public class VertxSimplePushServer extends Verticle {
         return DefaultSimplePushConfig.create()
                 .ackInterval(config.getLong("ackInterval"))
                 .endpointPrefix(config.getString("endpointUrlPrefix"))
+                .endpointHost(config.getString("host", DEFAULT_HOST))
+                .endpointPort(config.getInteger("port", DEFAULT_PORT))
+                .endpointTls(config.getBoolean("tls", false))
                 .password(config.getString("password", "changeme!!!"))
                 .userAgentReaperTimeout(config.getLong("userAgentReaperTimeout")).build();
     }
 
-    private void startHttpServer(final HttpServer httpServer) {
-        final String host = container.config().getString("host", DEFAULT_HOST);
-        final int port = container.config().getInteger("port", DEFAULT_PORT);
+    private void startHttpServer(final HttpServer httpServer, final boolean openshift) {
+        final String host = openshift ? System.getenv("OPENSHIFT_VERTX_IP") : container.config().getString("host", DEFAULT_HOST);
+        final int port = openshift ? Integer.parseInt(System.getenv("OPENSHIFT_VERTX_PORT")) : container.config().getInteger("port", DEFAULT_PORT);
         httpServer.listen(port, host);
         container.logger().info("Started VertxSimplePushServer on host [" + host + "] port [" + port + "]");
     }

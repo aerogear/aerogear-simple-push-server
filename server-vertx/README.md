@@ -54,3 +54,59 @@ __password__
 This should be a password that will be used to generate the server private key which is used for  encryption/decryption
 of the endpoint URLs that are returned to clients upon successful channel registration.
 
+## Deploy on OpenShift
+
+Vert.x applications can now be easily deployed on OpenShift using the dedicated cartdridge. This way you can deploy your vert.x SimplePush Server on the cloud and fully benefit from the scalability features.
+
+### Application Creation
+
+Use the [vert.x cartdridge](https://openshift.redhat.com/app/console/application_type/cart!jboss-vertx-2.1) to create a new application.
+
+Once it has been created, clone the application locally.
+
+### Add the vert.x Simple Push Server Mod
+
+From your ```server-vertx ``` folder, copy the mod folder ``` target/mods/aerogear~simplepush~[your_version] ``` to the local cloned OpenShift App in ``` /mods ```. 
+
+### Add a configuration file
+
+Create a file ``` config.json ``` and put it in the root folder of your cloned app. 
+
+
+```
+{
+    "port" : 8443,
+    "openshift": true,
+    "tls": true,  
+    "host" : "<your_name-useraccount>.rhcloud.com",
+    "userAgentReaperTimeout" : 604800000,
+    "ackInterval" : 60000,
+    "endpointUrlPrefix" : "/update",
+    "password" : "changeMe!"
+}
+
+```
+Be sure to have these options set correctly : 
+
+__port__ : 8443 for a secured connection or 8000 for an unsecured connection
+
+__tls__ : be sure to have this one set on ``` true ``` if you have set the port to ``` 8443 ```
+
+__openshift__ : Be sure this one is on ``` true ```
+
+__host__ : Be sure to use the public domain that has been affected to your app.
+
+
+### Configure the cartdridge 
+
+Open the file ``` configuration/vertx.env ``` and edit it to have : 
+
+```
+export vertx_module=aerogear~simplepush~<your_version>
+export vertx_run_options="-conf config.json"
+
+```
+
+Commit and Push to the remote, your Vert.x Simple Push Server is running on OpenShift ! 
+
+
